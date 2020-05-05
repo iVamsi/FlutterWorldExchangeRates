@@ -1,4 +1,4 @@
-# flutterworldexchangerates
+# World Exchange Rates
 
 A simple exchange rates application written in Flutter
 
