@@ -1,28 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutterworldexchangerates/services/repository.dart';
+import 'package:flutterworldexchangerates/widgets/all_currencies_widget.dart';
 
 class HomeScreen extends StatefulWidget {
+  HomeScreen({@required this.repository});
+
+  final Repository repository;
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
-  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -36,9 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('World Exchange Rates'),
       ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
+      body: _buildScreen(),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -59,5 +47,30 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: _onItemTapped,
       ),
     );
+  }
+
+  Widget _buildScreen() {
+    switch (_selectedIndex) {
+      case 0:
+        {
+          return AllCurrenciesWidget(widget.repository);
+        }
+        break;
+      case 1:
+        {
+          return Text(
+            'Index 1: Business',
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          );
+        }
+        break;
+      default:
+        {
+          return Text(
+            'Index 2: School',
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          );
+        }
+    }
   }
 }

@@ -7,6 +7,8 @@ import 'package:flutterworldexchangerates/screens/all_currencies_screen.dart';
 import 'package:flutterworldexchangerates/screens/currency_converter_screen.dart';
 import 'package:flutterworldexchangerates/screens/favorite_currencies_screen.dart';
 import 'package:flutterworldexchangerates/screens/home_screen.dart';
+import 'package:flutterworldexchangerates/services/currency_service.dart';
+import 'package:flutterworldexchangerates/services/repository_impl.dart';
 
 class WorldExchangeRatesApplication extends StatelessWidget {
   @override
@@ -16,7 +18,7 @@ class WorldExchangeRatesApplication extends StatelessWidget {
       title: "World Exchange Rates",
       initialRoute: HomeScreenRoute.routeName,
       routes: {
-        HomeScreenRoute.routeName : (context) => HomeScreen(),
+        HomeScreenRoute.routeName : (context) => HomeScreen(repository: RepositoryImpl(CurrencyService())),
         AllCurrenciesScreenRoute.routeName : (context) => AllCurrenciesScreen(),
         FavoriteCurrenciesScreenRoute.routeName : (context) => FavoriteCurrenciesScreen(),
         CurrencyConverterScreenRoute.routeName : (context) => CurrencyConverterScreen()
