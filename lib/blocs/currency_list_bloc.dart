@@ -2,44 +2,30 @@ import 'dart:async';
 
 import 'package:flutterworldexchangerates/models/currency_response.dart';
 import 'package:flutterworldexchangerates/services/repository.dart';
+import 'package:flutterworldexchangerates/services/result.dart';
+import 'package:generic_bloc_provider/generic_bloc_provider.dart';
+import 'package:rxdart/rxdart.dart';
 
-class CurrencyListBloc {
-  CurrencyListBloc(this._repository);
+class CurrencyListBloc extends Bloc {
+  CurrencyListBloc({this.repository});
 
-  final Repository _repository;
+  final Repository repository;
 
-  final _currencyStreamController = StreamController<CurrencyListState>();
+  final _currencyListSubject = PublishSubject<Result<List<Currency>>>();
 
-  Stream<CurrencyListState> get currencyList =>
-      _currencyStreamController.stream;
+  Stream<Result<List<Currency>>> get currencyListStream =>
+      _currencyListSubject.stream;
 
   void loadCurrencies() {
-    _repository.fetchLatestCurrencies().listen((currencyList) {
-      return _currencyStreamController.sink
-          .add(CurrencyListDataState(currencyList));
+    repository.fetchLatestCurrencies().listen((currencyListStream) {
+      return _currencyListSubject.add(SuccessResult(currencyListStream));
     }, onError: (error) {
-      _currencyStreamController.sink.addError(CurrencyListErrorState(error));
-      print("fetchTriviaQuestions - $error");
+      _currencyListSubject.addError(ErrorResult(error));
+      print("fetchCurrencyList - $error");
     });
   }
 
   void dispose() {
-    _currencyStreamController.close();
+    _currencyListSubject.close();
   }
-}
-
-class CurrencyListState {}
-
-class CurrencyListLoadingState extends CurrencyListState {}
-
-class CurrencyListErrorState extends CurrencyListState {
-  CurrencyListErrorState(this.error);
-
-  Object error;
-}
-
-class CurrencyListDataState extends CurrencyListState {
-  CurrencyListDataState(this.currencies);
-
-  List<Currency> currencies;
 }

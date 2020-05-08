@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutterworldexchangerates/services/repository.dart';
 import 'package:flutterworldexchangerates/widgets/all_currencies_widget.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({@required this.repository});
-
-  final Repository repository;
-
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -53,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
     switch (_selectedIndex) {
       case 0:
         {
-          return AllCurrenciesWidget(widget.repository);
+          return AllCurrenciesWidget();
         }
         break;
       case 1:

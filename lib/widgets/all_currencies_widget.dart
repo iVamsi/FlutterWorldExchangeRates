@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutterworldexchangerates/blocs/currency_list_bloc.dart';
 import 'package:flutterworldexchangerates/models/currency_response.dart';
-import 'package:flutterworldexchangerates/services/repository.dart';
+import 'package:flutterworldexchangerates/services/result.dart';
+import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 
 class AllCurrenciesWidget extends StatefulWidget {
-
-  AllCurrenciesWidget(this._repository);
-
-  final Repository _repository;
 
   @override
   _AllCurrenciesWidgetState createState() => _AllCurrenciesWidgetState();
@@ -17,27 +14,27 @@ class _AllCurrenciesWidgetState extends State<AllCurrenciesWidget> {
   CurrencyListBloc _currencyListBloc;
 
   @override
-  void initState() {
-    _currencyListBloc = CurrencyListBloc(widget._repository);
+  void didChangeDependencies() {
+    _currencyListBloc = BlocProvider.of<CurrencyListBloc>(context);
     _currencyListBloc.loadCurrencies();
-    super.initState();
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-    child: StreamBuilder<CurrencyListState>(
-        initialData: CurrencyListLoadingState(),
-        stream: _currencyListBloc.currencyList,
+    child: StreamBuilder<Result<List<Currency>>>(
+        initialData: LoadingState(),
+        stream: _currencyListBloc.currencyListStream,
         builder: (context, snapshot) {
-          final state = snapshot.data;
-          if (state is CurrencyListLoadingState) {
+          final result = snapshot.data;
+          if (result is LoadingState) {
             return _buildLoading();
           } 
-          if (state is CurrencyListErrorState) {
-            return _buildError(state);
+          if (result is ErrorResult) {
+            return _buildError(result as ErrorResult);
           }
-          return _buildBody(state);
+          return _buildBody(result as SuccessResult);
         },
       ),
     );
@@ -49,11 +46,11 @@ class _AllCurrenciesWidgetState extends State<AllCurrenciesWidget> {
     );
   }
 
-  Widget _buildBody(CurrencyListDataState state) {
-    if (state == null) {
-      return _buildError(CurrencyListErrorState("No currencies available. Please try again later."));
+  Widget _buildBody(SuccessResult result) {
+    if (result == null) {
+      return _buildError(ErrorResult("No currencies available. Please try again later."));
     }
-    return _getListView(state.currencies);
+    return _getListView(result.value);
   }
 
   ListView _getListView(List<Currency> currencyList) => ListView.builder(
@@ -76,10 +73,10 @@ class _AllCurrenciesWidgetState extends State<AllCurrenciesWidget> {
     );
   }
 
-  Widget _buildError(CurrencyListErrorState error) {
+  Widget _buildError(ErrorResult error) {
     return Center(
       child: Text(
-        error.error as String,
+        error.errorMessage as String,
         style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
         textAlign: TextAlign.center,
       ),
