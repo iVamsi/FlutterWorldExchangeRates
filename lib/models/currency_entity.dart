@@ -34,6 +34,6 @@ class CurrencyEntity {
 
   @override
   String toString() {
-    return 'Currency{id: $currencyId, name: $currencyName, value: $currencyValue, favorite: $currencyFavorite, base: $baseCurrency}';
+    return 'CurrencyEntity {id: $currencyId, name: $currencyName, value: $currencyValue, favorite: $currencyFavorite, base: $baseCurrency}';
   }
 }
