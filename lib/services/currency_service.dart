@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:flutterworldexchangerates/models/currency_entity_response.dart';
 import 'package:flutterworldexchangerates/models/currency_response.dart';
 import 'package:http/http.dart' show Client;
+import 'package:flutter/services.dart' show rootBundle;
 
 class CurrencyService {
   final Client client = Client();
@@ -17,4 +19,13 @@ class CurrencyService {
 
     return CurrencyResponse.fromJson(json);
   }
+
+  Future<CurrencyEntityResponse> fetchLocalCurrenciesFromFile() async {
+
+    String jsonString = await rootBundle.loadString('assets/currencies.json');
+    final json = jsonDecode(jsonString);
+
+    return CurrencyEntityResponse.fromJson(json);
+  }
+
 }

@@ -2,13 +2,25 @@ import 'package:flutter/foundation.dart';
 import 'package:flutterworldexchangerates/strings.dart';
 
 class CurrencyEntity {
-  final String currencyId;
-  final String currencyName;
-  final double currencyValue;
-  final String currencyFavorite;
-  final String baseCurrency;
+  final currencyId;
+  final currencyName;
+  final currencyValue;
+  final currencyFavorite;
+  final baseCurrency;
 
-  CurrencyEntity({@required this.currencyId, @required this.currencyName, @required this.currencyValue, @required this.currencyFavorite, @required this.baseCurrency});
+  CurrencyEntity(
+      {@required this.currencyId,
+      @required this.currencyName,
+      @required this.currencyValue,
+      @required this.currencyFavorite,
+      @required this.baseCurrency});
+
+  CurrencyEntity.fromJson(Map<String, dynamic> parsedJson)
+      : currencyId = parsedJson['currencyId'],
+        currencyName = parsedJson['currencyName'],
+        currencyValue = parsedJson['currencyValue'],
+        currencyFavorite = parsedJson['currencyFavorite'],
+        baseCurrency = parsedJson['baseCurrency'];
 
   Map<String, dynamic> toMap() {
     return {

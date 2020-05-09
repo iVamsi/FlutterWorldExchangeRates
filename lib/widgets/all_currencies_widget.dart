@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterworldexchangerates/blocs/currency_list_bloc.dart';
-import 'package:flutterworldexchangerates/models/currency_response.dart';
+import 'package:flutterworldexchangerates/models/currency_entity.dart';
 import 'package:flutterworldexchangerates/services/result.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 
@@ -23,7 +23,7 @@ class _AllCurrenciesWidgetState extends State<AllCurrenciesWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-    child: StreamBuilder<Result<List<Currency>>>(
+    child: StreamBuilder<Result<List<CurrencyEntity>>>(
         initialData: LoadingState(),
         stream: _currencyListBloc.currencyListStream,
         builder: (context, snapshot) {
@@ -53,13 +53,13 @@ class _AllCurrenciesWidgetState extends State<AllCurrenciesWidget> {
     return _getListView(result.value);
   }
 
-  ListView _getListView(List<Currency> currencyList) => ListView.builder(
+  ListView _getListView(List<CurrencyEntity> currencyList) => ListView.builder(
       itemCount: currencyList.length,
       itemBuilder: (BuildContext context, int position) {
         return _getRow(currencyList[position]);
       });
 
-  Widget _getRow(Currency currency) {
+  Widget _getRow(CurrencyEntity currency) {
     return Card(
       elevation: 4.0,
       child: ListTile(

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutterworldexchangerates/models/currency_response.dart';
+import 'package:flutterworldexchangerates/models/currency_entity.dart';
 import 'package:flutterworldexchangerates/services/repository.dart';
 import 'package:flutterworldexchangerates/services/result.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
@@ -11,9 +11,9 @@ class CurrencyListBloc extends Bloc {
 
   final Repository repository;
 
-  final _currencyListSubject = PublishSubject<Result<List<Currency>>>();
+  final _currencyListSubject = PublishSubject<Result<List<CurrencyEntity>>>();
 
-  Stream<Result<List<Currency>>> get currencyListStream =>
+  Stream<Result<List<CurrencyEntity>>> get currencyListStream =>
       _currencyListSubject.stream;
 
   void loadCurrencies() {

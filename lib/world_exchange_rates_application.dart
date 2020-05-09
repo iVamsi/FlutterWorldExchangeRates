@@ -16,7 +16,7 @@ import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 class WorldExchangeRatesApplication extends StatelessWidget {
 
   final CurrencyListBloc _currencyListBloc = CurrencyListBloc(
-      repository: RepositoryImpl(CurrencyService(), CurrencyDatabase())
+      repository: RepositoryImpl(CurrencyService(), CurrencyDatabase.db)
   );
   @override
   Widget build(BuildContext context) {

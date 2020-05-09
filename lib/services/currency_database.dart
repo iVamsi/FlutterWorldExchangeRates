@@ -4,36 +4,46 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class CurrencyDatabase {
+  CurrencyDatabase._();
 
-  //TODO: Optimize the way we create and initialize database
-  Future<Database> _database; 
+  static final CurrencyDatabase db = CurrencyDatabase._();
 
-  CurrencyDatabase() {
-    createDatabase();
+  Database _database;
+
+  Future<Database> get database async {
+    if (_database != null) return _database;
+    // if _database is null we instantiate it
+    _database = await initDatabase();
+    return _database;
   }
 
-  void createDatabase() async {
-    _database = openDatabase(
-    // Set the path to the database. Note: Using the `join` function from the
-    // `path` package is best practice to ensure the path is correctly
-    // constructed for each platform.
-    join(await getDatabasesPath(), 'currency_database.db'),
-    // When the database is first created, create a table to store currencies.
-    onCreate: (db, version) {
-      return db.execute(
-        "CREATE TABLE ${Strings.TABLE_CURRENCIES}(id INTEGER PRIMARY KEY, name TEXT, value REAL, favorite TEXT, base TEXT)",
-      );
-    },
-    // Set the version. This executes the onCreate function and provides a
-    // path to perform database upgrades and downgrades.
-    version: 1,
-  );
+  Future<Database> initDatabase() async {
+    return await openDatabase(
+      // Set the path to the database. Note: Using the `join` function from the
+      // `path` package is best practice to ensure the path is correctly
+      // constructed for each platform.
+      join(await getDatabasesPath(), 'currency_database.db'),
+      // When the database is first created, create a table to store currencies.
+      onCreate: (db, version) async {
+        await db.execute(
+          """CREATE TABLE ${Strings.TABLE_CURRENCIES}(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            ${Strings.KEY_COLUMN_CURRENCY_ID} TEXT,
+            ${Strings.KEY_COLUMN_CURRENCY_NAME} TEXT, 
+            ${Strings.KEY_COLUMN_CURRENCY_VALUE} REAL, 
+            ${Strings.KEY_COLUMN_CURRENCY_FAVORITE} TEXT, 
+            ${Strings.KEY_COLUMN_CURRENCY_BASE} TEXT)""",
+        );
+      },
+      // Set the version. This executes the onCreate function and provides a
+      // path to perform database upgrades and downgrades.
+      version: 1,
+    );
   }
-     
 
   Future<void> insertCurrency(CurrencyEntity currency) async {
     // Get a reference to the database.
-    final Database db = await _database;
+    final Database db = await database;
 
     // Insert the currency into the correct table. Also specify the
     // `conflictAlgorithm`. In this case, if the same currency is inserted
@@ -47,26 +57,26 @@ class CurrencyDatabase {
 
   Future<List<CurrencyEntity>> getCurrenciesFromDatabase() async {
     // Get a reference to the database.
-    final Database db = await _database;
+    final Database db = await database;
 
     // Query the table for all the currencies.
-    final List<Map<String, dynamic>> maps = await db.query(Strings.TABLE_CURRENCIES);
+    final List<Map<String, dynamic>> maps =
+        await db.query(Strings.TABLE_CURRENCIES);
 
     // Convert the List<Map<String, dynamic> into a List<CurrencyEntity>.
     return List.generate(maps.length, (i) {
       return CurrencyEntity(
-        currencyId: maps[i][Strings.KEY_COLUMN_CURRENCY_ID],
-        currencyName: maps[i][Strings.KEY_COLUMN_CURRENCY_NAME],
-        currencyValue: maps[i][Strings.KEY_COLUMN_CURRENCY_VALUE],
-        currencyFavorite: maps[i][Strings.KEY_COLUMN_CURRENCY_FAVORITE],
-        baseCurrency: maps[i][Strings.KEY_COLUMN_CURRENCY_BASE]
-      );
+          currencyId: maps[i][Strings.KEY_COLUMN_CURRENCY_ID],
+          currencyName: maps[i][Strings.KEY_COLUMN_CURRENCY_NAME],
+          currencyValue: maps[i][Strings.KEY_COLUMN_CURRENCY_VALUE],
+          currencyFavorite: maps[i][Strings.KEY_COLUMN_CURRENCY_FAVORITE],
+          baseCurrency: maps[i][Strings.KEY_COLUMN_CURRENCY_BASE]);
     });
   }
 
   Future<void> updateCurrency(CurrencyEntity currencyEntity) async {
     // Get a reference to the database.
-    final db = await _database;
+    final db = await database;
 
     // Update the given currency.
     await db.update(
@@ -81,7 +91,7 @@ class CurrencyDatabase {
 
   Future<void> deleteCurrency(int id) async {
     // Get a reference to the database.
-    final db = await _database;
+    final db = await database;
 
     // Remove the Currency from the database.
     await db.delete(
