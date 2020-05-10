@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutterworldexchangerates/strings.dart';
+import 'package:flutterworldexchangerates/constants.dart';
 
 class CurrencyEntity {
   final currencyId;
@@ -24,11 +24,11 @@ class CurrencyEntity {
 
   Map<String, dynamic> toMap() {
     return {
-      Strings.KEY_COLUMN_CURRENCY_ID: currencyId,
-      Strings.KEY_COLUMN_CURRENCY_NAME: currencyName,
-      Strings.KEY_COLUMN_CURRENCY_VALUE: currencyValue,
-      Strings.KEY_COLUMN_CURRENCY_FAVORITE: currencyFavorite,
-      Strings.KEY_COLUMN_CURRENCY_BASE: baseCurrency
+      Constants.KEY_COLUMN_CURRENCY_ID: currencyId,
+      Constants.KEY_COLUMN_CURRENCY_NAME: currencyName,
+      Constants.KEY_COLUMN_CURRENCY_VALUE: currencyValue,
+      Constants.KEY_COLUMN_CURRENCY_FAVORITE: currencyFavorite,
+      Constants.KEY_COLUMN_CURRENCY_BASE: baseCurrency
     };
   }
 

@@ -1,5 +1,5 @@
 import 'package:flutterworldexchangerates/models/currency_entity.dart';
-import 'package:flutterworldexchangerates/strings.dart';
+import 'package:flutterworldexchangerates/constants.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -26,13 +26,13 @@ class CurrencyDatabase {
       // When the database is first created, create a table to store currencies.
       onCreate: (db, version) async {
         await db.execute(
-          """CREATE TABLE ${Strings.TABLE_CURRENCIES}(
+          """CREATE TABLE ${Constants.TABLE_CURRENCIES}(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            ${Strings.KEY_COLUMN_CURRENCY_ID} TEXT,
-            ${Strings.KEY_COLUMN_CURRENCY_NAME} TEXT, 
-            ${Strings.KEY_COLUMN_CURRENCY_VALUE} REAL, 
-            ${Strings.KEY_COLUMN_CURRENCY_FAVORITE} TEXT, 
-            ${Strings.KEY_COLUMN_CURRENCY_BASE} TEXT)""",
+            ${Constants.KEY_COLUMN_CURRENCY_ID} TEXT,
+            ${Constants.KEY_COLUMN_CURRENCY_NAME} TEXT, 
+            ${Constants.KEY_COLUMN_CURRENCY_VALUE} REAL, 
+            ${Constants.KEY_COLUMN_CURRENCY_FAVORITE} TEXT, 
+            ${Constants.KEY_COLUMN_CURRENCY_BASE} TEXT)""",
         );
       },
       // Set the version. This executes the onCreate function and provides a
@@ -49,7 +49,7 @@ class CurrencyDatabase {
     // `conflictAlgorithm`. In this case, if the same currency is inserted
     // multiple times, it replaces the previous data.
     await db.insert(
-      Strings.TABLE_CURRENCIES,
+      Constants.TABLE_CURRENCIES,
       currency.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -61,16 +61,16 @@ class CurrencyDatabase {
 
     // Query the table for all the currencies.
     final List<Map<String, dynamic>> maps =
-        await db.query(Strings.TABLE_CURRENCIES);
+        await db.query(Constants.TABLE_CURRENCIES);
 
     // Convert the List<Map<String, dynamic> into a List<CurrencyEntity>.
     return List.generate(maps.length, (i) {
       return CurrencyEntity(
-          currencyId: maps[i][Strings.KEY_COLUMN_CURRENCY_ID],
-          currencyName: maps[i][Strings.KEY_COLUMN_CURRENCY_NAME],
-          currencyValue: maps[i][Strings.KEY_COLUMN_CURRENCY_VALUE],
-          currencyFavorite: maps[i][Strings.KEY_COLUMN_CURRENCY_FAVORITE],
-          baseCurrency: maps[i][Strings.KEY_COLUMN_CURRENCY_BASE]);
+          currencyId: maps[i][Constants.KEY_COLUMN_CURRENCY_ID],
+          currencyName: maps[i][Constants.KEY_COLUMN_CURRENCY_NAME],
+          currencyValue: maps[i][Constants.KEY_COLUMN_CURRENCY_VALUE],
+          currencyFavorite: maps[i][Constants.KEY_COLUMN_CURRENCY_FAVORITE],
+          baseCurrency: maps[i][Constants.KEY_COLUMN_CURRENCY_BASE]);
     });
   }
 
@@ -80,7 +80,7 @@ class CurrencyDatabase {
 
     // Update the given currency.
     await db.update(
-      Strings.TABLE_CURRENCIES,
+      Constants.TABLE_CURRENCIES,
       currencyEntity.toMap(),
       // Ensure that the Currency has a matching id.
       where: "id = ?",
@@ -95,7 +95,7 @@ class CurrencyDatabase {
 
     // Remove the Currency from the database.
     await db.delete(
-      Strings.TABLE_CURRENCIES,
+      Constants.TABLE_CURRENCIES,
       // Use a `where` clause to delete a specific currency.
       where: "id = ?",
       // Pass the Currency's id as a whereArg to prevent SQL injection.

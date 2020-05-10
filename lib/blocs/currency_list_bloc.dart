@@ -16,8 +16,8 @@ class CurrencyListBloc extends Bloc {
   Stream<Result<List<CurrencyEntity>>> get currencyListStream =>
       _currencyListSubject.stream;
 
-  void loadCurrencies() {
-    repository.fetchLatestCurrencies().listen((currencyListStream) {
+  void loadCurrencies({bool isFavoriteCurrenciesList = false}) {
+    repository.fetchLatestCurrencies(isFavoriteCurrenciesList).listen((currencyListStream) {
       return _currencyListSubject.add(SuccessResult(currencyListStream));
     }, onError: (error) {
       _currencyListSubject.addError(ErrorResult(error));

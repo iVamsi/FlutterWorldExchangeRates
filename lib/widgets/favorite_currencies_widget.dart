@@ -4,17 +4,16 @@ import 'package:flutterworldexchangerates/models/currency_entity.dart';
 import 'package:flutterworldexchangerates/services/result.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 
-class AllCurrenciesWidget extends StatefulWidget {
-
+class FavoriteCurrenciesWidget extends StatefulWidget {
   final isFavoriteCurrenciesList;
 
-  AllCurrenciesWidget({@required this.isFavoriteCurrenciesList});
-
+  FavoriteCurrenciesWidget({@required this.isFavoriteCurrenciesList});
+  
   @override
-  _AllCurrenciesWidgetState createState() => _AllCurrenciesWidgetState();
+  _FavoriteCurrenciesWidgetState createState() => _FavoriteCurrenciesWidgetState();
 }
 
-class _AllCurrenciesWidgetState extends State<AllCurrenciesWidget> {
+class _FavoriteCurrenciesWidgetState extends State<FavoriteCurrenciesWidget> {
   CurrencyListBloc _currencyListBloc;
 
   @override

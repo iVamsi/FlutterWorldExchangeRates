@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:flutterworldexchangerates/constants.dart';
 import 'package:flutterworldexchangerates/models/currency_entity.dart';
 import 'package:flutterworldexchangerates/services/currency_database.dart';
 import 'package:flutterworldexchangerates/services/currency_service.dart';
@@ -14,18 +15,14 @@ class RepositoryImpl implements Repository {
   RepositoryImpl(this._currencyService, this._currencyDatabase);
 
   @override
-  Stream<List<CurrencyEntity>> fetchLatestCurrencies() {
-    return Stream.fromFuture(_fetchFromRemoteOrLocal());
+  Stream<List<CurrencyEntity>> fetchLatestCurrencies(bool isFavoriteCurrenciesList) {
+    return Stream.fromFuture(_fetchFromRemoteOrLocal(isFavoriteCurrenciesList));
   }
 
-  Future<List<CurrencyEntity>> _fetchFromRemoteOrLocal() async {
+  Future<List<CurrencyEntity>> _fetchFromRemoteOrLocal(bool isFavoriteCurrenciesList) async {
     if (_cachedCurrencies != null) {
       print("Fetching currencies from Cache");
-      final currencyList = _cachedCurrencies.values.toList();
-      currencyList.sort(
-        (a, b) => (a.currencyId as String).compareTo(b.currencyId as String)
-      );
-      return currencyList;
+      return _getCachedCurrencies(isFavoriteCurrenciesList);
     }
 
     final currencies = await _currencyDatabase.getCurrenciesFromDatabase();
@@ -34,7 +31,7 @@ class RepositoryImpl implements Repository {
       print("Fetching currencies from database");
       // refresh cache
       _refreshCache(currencies);
-      return currencies;
+      return getCurrencies(currencies, isFavoriteCurrenciesList);
     } else {
       print("Fetching currencies from remote");
       final currencyEntitiesList = await _currencyService
@@ -65,8 +62,23 @@ class RepositoryImpl implements Repository {
         _currencyDatabase.insertCurrency(currency);
       });
 
-      return updatedCurrencyList;
+      return getCurrencies(updatedCurrencyList, isFavoriteCurrenciesList);
     }
+  }
+
+  List<CurrencyEntity> getCurrencies(List<CurrencyEntity> currencyList, bool isFavoriteCurrenciesList) {
+    if (isFavoriteCurrenciesList) {
+      return currencyList.where((currency) => currency.currencyFavorite == Constants.BASE_CURRENCY_YES).toList();
+    }
+    return currencyList;
+  }
+
+  List<CurrencyEntity> _getCachedCurrencies(bool isFavoriteCurrenciesList) {
+    final currencyList = _cachedCurrencies.values.toList();
+    currencyList.sort(
+      (a, b) => (a.currencyId as String).compareTo(b.currencyId as String)
+    );
+    return getCurrencies(currencyList, isFavoriteCurrenciesList);
   }
 
   void _refreshCache(List<CurrencyEntity> currencyList) {

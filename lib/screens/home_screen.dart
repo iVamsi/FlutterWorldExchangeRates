@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutterworldexchangerates/screens/favorite_currencies_screen.dart';
 import 'package:flutterworldexchangerates/widgets/all_currencies_widget.dart';
+import 'package:flutterworldexchangerates/widgets/favorite_currencies_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -48,15 +50,14 @@ class _HomeScreenState extends State<HomeScreen> {
     switch (_selectedIndex) {
       case 0:
         {
-          return AllCurrenciesWidget();
+          return AllCurrenciesWidget(isFavoriteCurrenciesList: false);
         }
         break;
       case 1:
         {
-          return Text(
-            'Index 1: Business',
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-          );
+          //TODO: Find out a way to just call AllCurrenciesWidget(isFavoriteCurrenciesList: true)
+          // currently it's not refreshing widget if above one is used.
+          return FavoriteCurrenciesWidget(isFavoriteCurrenciesList: true);
         }
         break;
       default:
