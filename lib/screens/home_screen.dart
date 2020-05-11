@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterworldexchangerates/screens/favorite_currencies_screen.dart';
+import 'package:flutter/services.dart';
 import 'package:flutterworldexchangerates/widgets/all_currencies_widget.dart';
 import 'package:flutterworldexchangerates/widgets/favorite_currencies_widget.dart';
 
@@ -17,31 +17,44 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  Future<bool> _onWidgetPopped() {
+    setState(() {
+      if (_selectedIndex == 0) {
+        SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+      } else {
+        _selectedIndex = 0;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('World Exchange Rates'),
-      ),
-      body: _buildScreen(),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Home'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            title: Text('Business'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            title: Text('School'),
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
+    return WillPopScope(
+      onWillPop: _onWidgetPopped,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('World Exchange Rates'),
+        ),
+        body: _buildScreen(),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              title: Text('Home'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.business),
+              title: Text('Business'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.school),
+              title: Text('School'),
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.amber[800],
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }
