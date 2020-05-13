@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:flutterworldexchangerates/models/currency_entity_response.dart';
-import 'package:flutterworldexchangerates/models/currency_response.dart';
+import 'package:worldexchangerates/models/currency_entity_response.dart';
+import 'package:worldexchangerates/models/currency_response.dart';
 import 'package:http/http.dart' show Client;
 import 'package:flutter/services.dart' show rootBundle;
 

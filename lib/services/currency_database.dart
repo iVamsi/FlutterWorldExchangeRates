@@ -1,5 +1,5 @@
-import 'package:flutterworldexchangerates/models/currency_entity.dart';
-import 'package:flutterworldexchangerates/constants.dart';
+import 'package:worldexchangerates/models/currency_entity.dart';
+import 'package:worldexchangerates/constants.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 

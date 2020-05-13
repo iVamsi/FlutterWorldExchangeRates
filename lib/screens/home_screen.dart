@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutterworldexchangerates/blocs/currency_list_bloc.dart';
-import 'package:flutterworldexchangerates/widgets/all_currencies_widget.dart';
+import 'package:worldexchangerates/blocs/currency_list_bloc.dart';
+import 'package:worldexchangerates/widgets/all_currencies_widget.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 
 class HomeScreen extends StatefulWidget {

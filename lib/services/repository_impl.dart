@@ -1,10 +1,10 @@
 import 'dart:collection';
 
-import 'package:flutterworldexchangerates/constants.dart';
-import 'package:flutterworldexchangerates/models/currency_entity.dart';
-import 'package:flutterworldexchangerates/services/currency_database.dart';
-import 'package:flutterworldexchangerates/services/currency_service.dart';
-import 'package:flutterworldexchangerates/services/repository.dart';
+import 'package:worldexchangerates/constants.dart';
+import 'package:worldexchangerates/models/currency_entity.dart';
+import 'package:worldexchangerates/services/currency_database.dart';
+import 'package:worldexchangerates/services/currency_service.dart';
+import 'package:worldexchangerates/services/repository.dart';
 
 class RepositoryImpl implements Repository {
   final CurrencyService _currencyService;

@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutterworldexchangerates/constants.dart';
+import 'package:worldexchangerates/constants.dart';
 
 class CurrencyEntity {
   final currencyId;

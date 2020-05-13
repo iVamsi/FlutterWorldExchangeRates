@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutterworldexchangerates/models/currency_entity.dart';
-import 'package:flutterworldexchangerates/services/result.dart';
+import 'package:worldexchangerates/models/currency_entity.dart';
+import 'package:worldexchangerates/services/result.dart';
 
 class AllCurrenciesWidget extends StatefulWidget {
 

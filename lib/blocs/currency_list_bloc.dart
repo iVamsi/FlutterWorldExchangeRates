@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:flutterworldexchangerates/models/currency_entity.dart';
-import 'package:flutterworldexchangerates/services/repository.dart';
-import 'package:flutterworldexchangerates/services/result.dart';
+import 'package:worldexchangerates/models/currency_entity.dart';
+import 'package:worldexchangerates/services/repository.dart';
+import 'package:worldexchangerates/services/result.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:rxdart/rxdart.dart';
 

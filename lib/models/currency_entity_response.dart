@@ -1,4 +1,4 @@
-import 'package:flutterworldexchangerates/models/currency_entity.dart';
+import 'package:worldexchangerates/models/currency_entity.dart';
 
 class CurrencyEntityResponse {
   final List<CurrencyEntity> currencyEntitiesList;
