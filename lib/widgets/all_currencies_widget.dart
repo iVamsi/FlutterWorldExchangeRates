@@ -1,35 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutterworldexchangerates/blocs/currency_list_bloc.dart';
 import 'package:flutterworldexchangerates/models/currency_entity.dart';
 import 'package:flutterworldexchangerates/services/result.dart';
-import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 
 class AllCurrenciesWidget extends StatefulWidget {
 
-  final isFavoriteCurrenciesList;
+  final bloc;
 
-  AllCurrenciesWidget({@required this.isFavoriteCurrenciesList});
+  AllCurrenciesWidget({@required this.bloc});
 
   @override
   _AllCurrenciesWidgetState createState() => _AllCurrenciesWidgetState();
 }
 
 class _AllCurrenciesWidgetState extends State<AllCurrenciesWidget> {
-  CurrencyListBloc _currencyListBloc;
-
-  @override
-  void didChangeDependencies() {
-    _currencyListBloc = BlocProvider.of<CurrencyListBloc>(context);
-    _currencyListBloc.loadCurrencies(isFavoriteCurrenciesList: widget.isFavoriteCurrenciesList);
-    super.didChangeDependencies();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
     child: StreamBuilder<Result<List<CurrencyEntity>>>(
         initialData: LoadingState(),
-        stream: _currencyListBloc.currencyListStream,
+        stream: widget.bloc.currencyListStream,
         builder: (context, snapshot) {
           final result = snapshot.data;
           if (result is LoadingState) {
