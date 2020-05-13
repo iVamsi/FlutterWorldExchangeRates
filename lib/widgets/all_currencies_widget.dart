@@ -61,7 +61,14 @@ class _AllCurrenciesWidgetState extends State<AllCurrenciesWidget> {
           "${currency.currencyId}",
         ),
         subtitle: Text(
-          "${currency.currencyValue}",
+          "${currency.currencyName}",
+        ),
+        trailing: Text(
+          (currency.currencyValue as double).toStringAsFixed(3),
+          style: TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold
+          ),
         ),
       ),
     );

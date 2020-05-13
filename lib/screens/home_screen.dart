@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
           currentIndex: _selectedIndex,
-          selectedItemColor: Colors.green,
+          selectedItemColor: Colors.amber[800],
           onTap: _onItemTapped,
         ),
       ),
@@ -90,9 +90,12 @@ class _HomeScreenState extends State<HomeScreen> {
         break;
       default:
         {
-          return Text(
-            'Index 2: School',
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          return Center(
+            child: Text(
+              'Under development',
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
           );
         }
     }
