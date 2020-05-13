@@ -57,6 +57,9 @@ class _AllCurrenciesWidgetState extends State<AllCurrenciesWidget> {
     return Card(
       elevation: 4.0,
       child: ListTile(
+        leading: Image(
+          image: AssetImage('images/flag_${currency.currencyId.toString().toLowerCase()}.png')
+        ),
         title: Text(
           "${currency.currencyId}",
         ),
