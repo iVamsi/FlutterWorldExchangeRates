@@ -77,7 +77,7 @@ class RepositoryImpl implements Repository {
     if (isFavoriteCurrenciesList) {
       return currencyList
           .where((currency) =>
-              currency.currencyFavorite == Constants.BASE_CURRENCY_YES)
+              currency.currencyFavorite == Constants.FAVORITE_CURRENCY_YES)
           .toList();
     }
     return currencyList;

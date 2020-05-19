@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:worldexchangerates/constants.dart';
 import 'package:worldexchangerates/models/currency_entity.dart';
 import 'package:worldexchangerates/services/result.dart';
 
@@ -55,6 +56,13 @@ class _AllCurrenciesWidgetState extends State<AllCurrenciesWidget> {
 
   Widget _getRow(CurrencyEntity currency) {
     return Card(
+      shape: currency.currencyFavorite == Constants.FAVORITE_CURRENCY_YES
+          ? new RoundedRectangleBorder(
+              side: new BorderSide(color: Colors.amber, width: 2.0),
+              borderRadius: BorderRadius.circular(4.0))
+          : new RoundedRectangleBorder(
+              side: new BorderSide(color: Colors.white, width: 2.0),
+              borderRadius: BorderRadius.circular(4.0)),
       elevation: 4.0,
       child: ListTile(
         leading: Image(
