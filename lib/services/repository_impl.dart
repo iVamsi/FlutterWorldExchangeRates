@@ -23,7 +23,7 @@ class RepositoryImpl implements Repository {
 
   Future<List<CurrencyEntity>> _fetchFromRemoteOrLocal(
       bool isFavoriteCurrenciesList) async {
-    if (_cachedCurrencies != null && _getDuration(await _getSavedTimeFromPreferences()) < 0) {
+    if (_cachedCurrencies != null && _cachedCurrencies.isNotEmpty && _getDuration(await _getSavedTimeFromPreferences()) < 0) {
       print("Fetching currencies from Cache");
       return _getCachedCurrencies(isFavoriteCurrenciesList);
     }
@@ -139,5 +139,12 @@ class RepositoryImpl implements Repository {
     int duration = currentTimeMinus24Hours.difference(DateTime.tryParse(prefTime)).inSeconds;
     print("Duration: $duration");
     return duration;
+  }
+
+  @override
+  Stream<bool> updateCurrencyInDatabase(CurrencyEntity currencyEntity) {
+    // clear cache so that next time cache will be updated with values from database
+    _cachedCurrencies.clear();
+    return Stream.fromFuture(_currencyDatabase.updateCurrency(currencyEntity));
   }
 }

@@ -41,18 +41,20 @@ class CurrencyDatabase {
     );
   }
 
-  Future<void> insertCurrency(CurrencyEntity currency) async {
+  Future<bool> insertCurrency(CurrencyEntity currency) async {
     // Get a reference to the database.
     final Database db = await database;
 
     // Insert the currency into the correct table. Also specify the
     // `conflictAlgorithm`. In this case, if the same currency is inserted
     // multiple times, it replaces the previous data.
-    await db.insert(
+    int isInserted = await db.insert(
       Constants.TABLE_CURRENCIES,
       currency.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+
+    return isInserted == 1 ? true : false;
   }
 
   Future<List<CurrencyEntity>> getCurrenciesFromDatabase() async {
@@ -74,32 +76,36 @@ class CurrencyDatabase {
     });
   }
 
-  Future<void> updateCurrency(CurrencyEntity currencyEntity) async {
+  Future<bool> updateCurrency(CurrencyEntity currencyEntity) async {
     // Get a reference to the database.
     final db = await database;
 
     // Update the given currency.
-    await db.update(
+    int isUpdated = await db.update(
       Constants.TABLE_CURRENCIES,
       currencyEntity.toMap(),
       // Ensure that the Currency has a matching id.
-      where: "id = ?",
+      where: "${Constants.KEY_COLUMN_CURRENCY_ID} = ?",
       // Pass the Currency's id as a whereArg to prevent SQL injection.
       whereArgs: [currencyEntity.currencyId],
     );
+
+    return isUpdated == 1 ? true : false;
   }
 
-  Future<void> deleteCurrency(int id) async {
+  Future<bool> deleteCurrency(CurrencyEntity currencyEntity) async {
     // Get a reference to the database.
     final db = await database;
 
     // Remove the Currency from the database.
-    await db.delete(
+    int isDeleted = await db.delete(
       Constants.TABLE_CURRENCIES,
       // Use a `where` clause to delete a specific currency.
-      where: "id = ?",
+      where: "${Constants.KEY_COLUMN_CURRENCY_ID} = ?",
       // Pass the Currency's id as a whereArg to prevent SQL injection.
-      whereArgs: [id],
+      whereArgs: [currencyEntity.currencyId],
     );
+
+    return isDeleted == 1 ? true : false;
   }
 }

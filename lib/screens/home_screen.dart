@@ -40,6 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
         _selectedIndex = 0;
       }
     });
+
+    return Future.value(true);
   }
 
   @override
